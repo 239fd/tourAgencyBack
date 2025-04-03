@@ -1,4 +1,4 @@
-package by.bsuir.touragency.extentions;
+package by.bsuir.touragency.exceptions;
 
 public class AuthenticationException extends RuntimeException {
     public AuthenticationException(String message) {

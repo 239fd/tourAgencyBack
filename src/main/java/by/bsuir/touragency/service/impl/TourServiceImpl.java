@@ -3,7 +3,7 @@ package by.bsuir.touragency.service.impl;
 import by.bsuir.touragency.dto.OneTourDTO;
 import by.bsuir.touragency.dto.TourDTO;
 import by.bsuir.touragency.entity.Tours;
-import by.bsuir.touragency.extentions.TourNotFoundException;
+import by.bsuir.touragency.exceptions.TourNotFoundException;
 import by.bsuir.touragency.mappers.TourMapper;
 import by.bsuir.touragency.repository.TourRepository;
 import by.bsuir.touragency.service.TourService;

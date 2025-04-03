@@ -1,7 +1,6 @@
 package by.bsuir.touragency.service.impl;
 
-import by.bsuir.touragency.entity.UsersFavoriteTour;
-import by.bsuir.touragency.entity.UsersFavoriteTourId;
+
 import by.bsuir.touragency.repository.FavoriteTourRepository;
 import by.bsuir.touragency.service.FavoriteTourService;
 import org.springframework.stereotype.Service;
@@ -19,10 +18,10 @@ public class FavoriteTourServiceImpl implements FavoriteTourService {
     @Override
     @Transactional
     public void addFavoriteTour(Long userId, Long tourId) {
-        UsersFavoriteTourId id = new UsersFavoriteTourId(userId, tourId);
-        if (!favoriteTourRepository.existsById(id)) {
-            UsersFavoriteTour favoriteTour = new UsersFavoriteTour(userId, tourId);
-            favoriteTourRepository.save(favoriteTour);
-        }
+//        UsersFavoriteTourId id = new UsersFavoriteTourId(userId, tourId);
+//        if (!favoriteTourRepository.existsById(id)) {
+//            UsersFavoriteTour favoriteTour = new UsersFavoriteTour(userId, tourId);
+//            favoriteTourRepository.save(favoriteTour);
+//        }
     }
 }

@@ -25,8 +25,7 @@ public class OrderServiceImpl implements OrderService {
 
     /*
     TODO
-    1) Разобраться с тем то ли возвращает
-    2) Посмотреть БД
-    3) Израбнное
+
+    1) Израбнное
      */
 }

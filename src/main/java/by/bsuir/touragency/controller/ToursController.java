@@ -4,7 +4,7 @@ import by.bsuir.touragency.API.ApiResponse;
 import by.bsuir.touragency.dto.OneTourDTO;
 import by.bsuir.touragency.dto.TourDTO;
 import by.bsuir.touragency.dto.ToursDTO;
-import by.bsuir.touragency.extentions.TourNotFoundException;
+import by.bsuir.touragency.exceptions.TourNotFoundException;
 import by.bsuir.touragency.service.FavoriteTourService;
 import by.bsuir.touragency.service.TourService;
 import lombok.RequiredArgsConstructor;
