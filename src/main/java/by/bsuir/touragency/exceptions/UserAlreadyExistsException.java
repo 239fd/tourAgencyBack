@@ -1,0 +1,7 @@
+package by.bsuir.touragency.extentions;
+
+public class UserAlreadyExistsException extends RuntimeException {
+    public UserAlreadyExistsException(String message) {
+        super(message);
+    }
+}
