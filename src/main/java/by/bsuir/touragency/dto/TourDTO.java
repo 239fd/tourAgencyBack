@@ -9,6 +9,7 @@ import lombok.*;
 @Builder
 public class TourDTO {
 
+    private long id;
     private String name;
     private String country;
     private String location;

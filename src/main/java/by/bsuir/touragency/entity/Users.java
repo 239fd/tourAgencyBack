@@ -1,5 +1,6 @@
 package by.bsuir.touragency.entity;
 
+import by.bsuir.touragency.entity.Enum.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -41,9 +42,9 @@ public class Users {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @Lob
+    @Enumerated(EnumType.STRING)
     @Column(name = "role")
-    private String role;
+    private Role role;
 
     @Column(name = "surname")
     private String surname;
@@ -59,5 +60,8 @@ public class Users {
 
     @OneToMany(mappedBy = "users")
     private Set<Orders> orders = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "users")
+    private Set<UsersFavoriteTour> usersFavoriteTours = new LinkedHashSet<>();
 
 }

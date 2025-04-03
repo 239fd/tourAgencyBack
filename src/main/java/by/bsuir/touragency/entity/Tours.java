@@ -49,4 +49,7 @@ public class Tours {
     @ManyToMany(mappedBy = "tours")
     private Set<Languages> languages = new LinkedHashSet<>();
 
+    @OneToMany(mappedBy = "tours")
+    private Set<UsersFavoriteTour> usersFavoriteTours = new LinkedHashSet<>();
+
 }
