@@ -2,8 +2,7 @@ package by.bsuir.touragency.entity;
 
 import by.bsuir.touragency.entity.Enum.Role;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.Instant;
 import java.util.LinkedHashSet;
@@ -12,6 +11,9 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@Builder
+@RequiredArgsConstructor
+@AllArgsConstructor
 @Table(name = "users")
 public class Users {
 

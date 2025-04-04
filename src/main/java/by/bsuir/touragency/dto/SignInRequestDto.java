@@ -1,13 +1,12 @@
 package by.bsuir.touragency.dto;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-@Setter
 @Getter
+@Setter
 @RequiredArgsConstructor
-public class LoginRequest {
+@AllArgsConstructor
+public class SignInRequestDto {
     private String email;
     private String password;
 }

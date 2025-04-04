@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `touragency`.`users`
     `password`        VARCHAR(255)           NULL DEFAULT NULL,
     `patronymic`      VARCHAR(255)           NULL DEFAULT NULL,
     `phone_number`    VARCHAR(255)           NULL DEFAULT NULL,
-    `role`            ENUM ('user', 'admin') NULL DEFAULT NULL,
+    `role`            ENUM ('USER', 'ADMIN') NULL DEFAULT NULL,
     `surname`         VARCHAR(255)           NULL DEFAULT NULL,
     `passport_number` VARCHAR(255)           NULL DEFAULT NULL,
     `passport_series` VARCHAR(255)           NULL DEFAULT NULL,
@@ -141,20 +141,3 @@ CREATE TABLE IF NOT EXISTS `touragency`.`users_favorite_tours`
     ENGINE = InnoDB
     DEFAULT CHARACTER SET = utf8mb4;
 
-CREATE TABLE IF NOT EXISTS `touragency`.`refresh_tokens`
-(
-    `id`          BIGINT       NOT NULL AUTO_INCREMENT,
-    `token`       VARCHAR(255) NOT NULL,
-    `expiry_date` DATETIME     NOT NULL,
-    `user_id`     BIGINT       NOT NULL,
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `uk_refresh_tokens_token` (`token`),
-    UNIQUE KEY `uk_refresh_tokens_user_id` (`user_id`),
-    CONSTRAINT `fk_refresh_tokens_users`
-        FOREIGN KEY (`user_id`)
-            REFERENCES `touragency`.`users` (`id`)
-            ON DELETE CASCADE
-            ON UPDATE CASCADE
-)
-    ENGINE = InnoDB
-    DEFAULT CHARSET = utf8mb4;
