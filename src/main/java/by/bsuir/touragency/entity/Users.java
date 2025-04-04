@@ -63,7 +63,7 @@ public class Users {
     @OneToMany(mappedBy = "users")
     private Set<Orders> orders = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "users")
+    @OneToMany(mappedBy = "user")
     private Set<UsersFavoriteTour> usersFavoriteTours = new LinkedHashSet<>();
 
 }

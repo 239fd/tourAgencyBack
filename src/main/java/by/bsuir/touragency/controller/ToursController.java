@@ -10,6 +10,8 @@ import by.bsuir.touragency.service.TourService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,7 +43,7 @@ public class ToursController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<ApiResponse<OneTourDTO>> getAllTours(@RequestParam long id) {
+    public ResponseEntity<ApiResponse<OneTourDTO>> getTour(@RequestParam long id) {
         try {
             OneTourDTO tourDTO = tourService.getTourById(id);
             ApiResponse<OneTourDTO> response = ApiResponse.<OneTourDTO>builder()
@@ -65,7 +67,11 @@ public class ToursController {
 
     @PostMapping("/favorites")
     public ResponseEntity<ApiResponse<String>> addTourToFavorites(@RequestParam Long favoriteTourId) {
-        favoriteTourService.addFavoriteTour(1L, favoriteTourId);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = auth.getName();
+
+        favoriteTourService.addFavoriteTourByEmail(userEmail, favoriteTourId);
+
         ApiResponse<String> response = ApiResponse.<String>builder()
                 .data("Tour added to favorites")
                 .status(true)
@@ -74,4 +80,38 @@ public class ToursController {
         return ResponseEntity.ok(response);
     }
 
+    @DeleteMapping("/favorites")
+    public ResponseEntity<ApiResponse<String>> removeTourFromFavorites(@RequestParam Long tourId) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = auth.getName();
+        favoriteTourService.removeFavoriteTourByEmail(userEmail, tourId);
+
+        ApiResponse<String> response = ApiResponse.<String>builder()
+                .data("Tour removed from favorites")
+                .status(true)
+                .message("Tour successfully removed from favorites")
+                .build();
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/favorites")
+    public ResponseEntity<ApiResponse<List<TourDTO>>> getMyFavoriteTours() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+
+        List<TourDTO> favoriteTours = favoriteTourService.getFavoriteToursByUser(email);
+
+        ApiResponse<List<TourDTO>> response = ApiResponse.<List<TourDTO>>builder()
+                .data(favoriteTours)
+                .status(true)
+                .message("Favorite tours retrieved successfully")
+                .build();
+
+        return ResponseEntity.ok(response);
+    }
 }
+
+/*TODO
+1) Попытка добавить несуществующий тур
+2) Пустые любимые туры
+ */
