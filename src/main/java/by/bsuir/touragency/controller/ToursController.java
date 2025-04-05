@@ -3,6 +3,7 @@ package by.bsuir.touragency.controller;
 import by.bsuir.touragency.API.ApiResponse;
 import by.bsuir.touragency.dto.OneTourDTO;
 import by.bsuir.touragency.dto.TourDTO;
+import by.bsuir.touragency.dto.TourSearchRequest;
 import by.bsuir.touragency.dto.ToursDTO;
 import by.bsuir.touragency.exceptions.TourNotFoundException;
 import by.bsuir.touragency.service.FavoriteTourService;
@@ -84,6 +85,7 @@ public class ToursController {
     public ResponseEntity<ApiResponse<String>> removeTourFromFavorites(@RequestParam Long tourId) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = auth.getName();
+
         favoriteTourService.removeFavoriteTourByEmail(userEmail, tourId);
 
         ApiResponse<String> response = ApiResponse.<String>builder()
@@ -109,6 +111,25 @@ public class ToursController {
 
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/search")
+    public ResponseEntity<ApiResponse<List<TourDTO>>> searchTours(@RequestBody TourSearchRequest request) {
+        List<TourDTO> result = tourService.searchAndFilter(request);
+
+        if (result.isEmpty()) {
+            throw new TourNotFoundException("Ничего не найдено");
+        }
+
+        ApiResponse<List<TourDTO>> response = ApiResponse.<List<TourDTO>>builder()
+                .data(result)
+                .status(true)
+                .message("Tours found successfully")
+                .build();
+
+        return ResponseEntity.ok(response);
+    }
+
+
 }
 
 /*TODO
