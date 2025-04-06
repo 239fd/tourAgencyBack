@@ -31,16 +31,8 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.POST,
-                                "/admin/**",
-                                "admin/analytics/**"
-                        )
-                        .hasAuthority("ADMIN")
-                        .requestMatchers(HttpMethod.POST,
-                                "/user/**",
-                                "/tours/**",
-                                "/orders/**")
-                        .hasAuthority("USER")
+                        .requestMatchers("/admin/**").hasAuthority("ADMIN")
+                        .requestMatchers("/user/**", "/tours/**", "/orders/**").hasAuthority("USER")
                         .anyRequest().permitAll())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
