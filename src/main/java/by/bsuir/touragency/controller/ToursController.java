@@ -1,10 +1,7 @@
 package by.bsuir.touragency.controller;
 
 import by.bsuir.touragency.API.ApiResponse;
-import by.bsuir.touragency.dto.OneTourDTO;
-import by.bsuir.touragency.dto.TourDTO;
-import by.bsuir.touragency.dto.TourSearchRequest;
-import by.bsuir.touragency.dto.ToursDTO;
+import by.bsuir.touragency.dto.*;
 import by.bsuir.touragency.exceptions.TourNotFoundException;
 import by.bsuir.touragency.service.FavoriteTourService;
 import by.bsuir.touragency.service.TourService;
@@ -43,7 +40,6 @@ public class ToursController {
         return ResponseEntity.ok(response);
     }
 
-
     @GetMapping("/")
     public ResponseEntity<ApiResponse<OneTourDTO>> getTour(@RequestParam long id) {
         OneTourDTO tourDTO = tourService.getTourByIdWithDates(id);
@@ -55,7 +51,6 @@ public class ToursController {
 
         return ResponseEntity.ok(response);
     }
-
 
     @PostMapping("/favorites")
     public ResponseEntity<ApiResponse<String>> addTourToFavorites(@RequestParam Long favoriteTourId) {
@@ -120,6 +115,49 @@ public class ToursController {
         return ResponseEntity.ok(response);
     }
 
+    @PostMapping
+    public ResponseEntity<ApiResponse<TourDTO>> createTour(@RequestBody TourDTO tourDTO) {
+        TourDTO created = tourService.createTour(tourDTO);
+        ApiResponse<TourDTO> response = ApiResponse.<TourDTO>builder()
+                .data(created)
+                .status(true)
+                .message("Tour created successfully")
+                .build();
+        return ResponseEntity.ok(response);
+    }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<TourDTO>> updateTour(@PathVariable Long id, @RequestBody TourEditingDTO tourDTO) {
+        TourDTO updated = tourService.updateTour(id, tourDTO);
+        ApiResponse<TourDTO> response = ApiResponse.<TourDTO>builder()
+                .data(updated)
+                .status(true)
+                .message("Tour updated successfully")
+                .build();
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<Void>> deleteTour(@PathVariable Long id) {
+        tourService.deleteTour(id);
+        ApiResponse<Void> response = ApiResponse.<Void>builder()
+                .status(true)
+                .message("Tour deleted successfully")
+                .build();
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/{tourId}/photos/{photoId}")
+    public ResponseEntity<ApiResponse<TourDTO>> updateTourPhoto(@PathVariable Long tourId,
+                                                                @PathVariable Long photoId,
+                                                                @RequestBody String newPhotoBase64) {
+        TourDTO updatedTour = tourService.updateTourPhoto(tourId, photoId, newPhotoBase64);
+        ApiResponse<TourDTO> response = ApiResponse.<TourDTO>builder()
+                .data(updatedTour)
+                .status(true)
+                .message("Tour photo updated successfully")
+                .build();
+        return ResponseEntity.ok(response);
+    }
 }
 

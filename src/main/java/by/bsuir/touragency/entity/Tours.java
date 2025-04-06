@@ -1,8 +1,7 @@
 package by.bsuir.touragency.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.Instant;
 import java.util.LinkedHashSet;
@@ -11,10 +10,14 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name="tours")
 public class Tours {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -47,9 +50,12 @@ public class Tours {
     private String program;
 
     @ManyToMany(mappedBy = "tours")
-    private Set<Languages> languages = new LinkedHashSet<>();
+    private Set<Languages> languages;
 
     @OneToMany(mappedBy = "tour")
-    private Set<UsersFavoriteTour> usersFavoriteTours = new LinkedHashSet<>();
+    private Set<UsersFavoriteTour> usersFavoriteTours;
+
+    @OneToMany(mappedBy = "tour")
+    private Set<TourPhoto> tourPhotos;
 
 }

@@ -14,9 +14,12 @@ public class OrderSubmissionDTO {
     private String specialRequest;
     private String language;
     private String name;
+    private int age;
+    private String gender;
     private String surname;
     private String patronymic;
     private String phoneNumber;
     private String passportSeries;
     private String passportNumber;
+    private LocalDate dateOfBirth;
 }

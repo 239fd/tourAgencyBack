@@ -1,21 +1,30 @@
 package by.bsuir.touragency.service.impl;
 
-import by.bsuir.touragency.dto.BalanceDTO;
-import by.bsuir.touragency.dto.UserProfileDTO;
+import by.bsuir.touragency.dto.*;
+import by.bsuir.touragency.entity.Enum.Role;
+import by.bsuir.touragency.entity.Orders;
 import by.bsuir.touragency.entity.Users;
 import by.bsuir.touragency.exceptions.UserException;
+import by.bsuir.touragency.exceptions.UserNotFoundException;
+import by.bsuir.touragency.mappers.OrderMapper;
 import by.bsuir.touragency.mappers.UserMapper;
+import by.bsuir.touragency.repository.OrderRepository;
 import by.bsuir.touragency.repository.UserRepository;
 import by.bsuir.touragency.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final OrderRepository orderRepository;
     private final UserMapper userMapper;
+    private final OrderMapper orderMapper;
 
     @Override
     public UserProfileDTO getProfile(String email) {
@@ -56,4 +65,40 @@ public class UserServiceImpl implements UserService {
 
         return BalanceDTO.builder().balance(user.getBalance()).build();
     }
+
+    @Override
+    public List<UserDTO> getAllUsersByRole(String role) {
+        List<Users> users = userRepository.findAllByRole(Role.USER);
+        return users.stream()
+                .map(userMapper::toUserDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<UserDTO> searchUsersByFio(String query) {
+        List<Users> users = userRepository.searchByFullName(query);
+        return users.stream()
+                .map(userMapper::toUserDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public UserDetailsDTO getUserDetails(Long userId) {
+        Users user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User not found with id " + userId));
+        UserDetailsDTO details = userMapper.toUserDetailsDTO(user);
+
+        int ordersCount = orderRepository.countByUsersId(userId);
+        details.setOrdersCount(ordersCount);
+        return details;
+    }
+
+    @Override
+    public List<OrderDTO> getUserOrders(Long userId) {
+        List<?> orders = orderRepository.findAllByUsersId(userId);
+        return orders.stream()
+                .map(o -> orderMapper.toOrderDTO((Orders) o))
+                .collect(Collectors.toList());
+    }
+
 }

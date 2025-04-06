@@ -13,6 +13,7 @@ public interface OrderService {
     List<OrderDTO> getAllOrders();
     OrderFormDataDTO getOrderFormData(String email, Long tourId, LocalDate startDate);
     OrderDTO submitOrder(String email, OrderSubmissionDTO request);
-
     List<OrderDTO> getOrdersByUser(String email);
+    List<OrderDTO> searchOrders(String query);
+    OrderDTO updateOrderStatus(Long orderId, String newStatus);
 }

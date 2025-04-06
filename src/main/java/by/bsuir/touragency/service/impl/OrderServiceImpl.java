@@ -2,6 +2,7 @@ package by.bsuir.touragency.service.impl;
 
 import by.bsuir.touragency.dto.*;
 import by.bsuir.touragency.entity.*;
+import by.bsuir.touragency.exceptions.OrderNotFoundException;
 import by.bsuir.touragency.exceptions.UserException;
 import by.bsuir.touragency.exceptions.TourNotFoundException;
 import by.bsuir.touragency.mappers.OrderMapper;
@@ -15,6 +16,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -86,6 +88,9 @@ public class OrderServiceImpl implements OrderService {
         user.setPhoneNumber(request.getPhoneNumber());
         user.setPassportSeries(request.getPassportSeries());
         user.setPassportNumber(request.getPassportNumber());
+        user.setAge(request.getAge());
+        user.setGender(request.getGender());
+        user.setBirthday(request.getDateOfBirth().atStartOfDay(ZoneId.systemDefault()).toInstant());
 
         Tours tour = tourRepository.findByIdAndStartDate(request.getTourId(), request.getStartDate())
                 .orElseThrow(() -> new TourNotFoundException("Тур не найден"));
@@ -123,5 +128,23 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.toOrderDTO(saved);
     }
 
+    @Override
+    public List<OrderDTO> searchOrders(String query) {
+        List<Orders> orders = orderRepository.searchOrders(query);
+        return orders.stream()
+                .map(orderMapper::toOrderDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public OrderDTO updateOrderStatus(Long orderId, String newStatus) {
+        Orders order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new OrderNotFoundException("Order not found with id " + orderId));
+        order.setStatus(newStatus);
+
+        order.setUpdateStatusDate(String.valueOf(Instant.now()));
+        Orders updatedOrder = orderRepository.save(order);
+        return orderMapper.toOrderDTO(updatedOrder);
+    }
 
 }

@@ -1,28 +1,28 @@
 package by.bsuir.touragency.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class TourDTO {
+public class TourEditingDTO {
 
-    private long id;
     private String name;
     private String country;
     private String location;
-    private int numberOfDays;
-    private double price;
+    private Integer numberOfDays;
+    private Double price;
     private String description;
     private String program;
-    private List<String> languages;
-    private List<String> photos;
     private LocalDate startDate;
     private LocalDate endDate;
-
+    private List<String> languages;
+    private List<PhotoDTO> photos;
 }

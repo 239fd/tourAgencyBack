@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @Builder
 public class OrderDTO {
 
+    private int id;
     private Instant createdDateTime;
     private Instant modifiedDateTime;
     private int numberOfPeople;

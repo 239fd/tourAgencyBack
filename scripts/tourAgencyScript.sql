@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `touragency`.`tours_has_languages`
     CONSTRAINT `fk_tours_has_languages_tours1`
         FOREIGN KEY (`tours_id`)
             REFERENCES `touragency`.`tours` (`id`)
-            ON DELETE NO ACTION
+            ON DELETE cascade
             ON UPDATE NO ACTION,
     CONSTRAINT `fk_tours_has_languages_languages1`
         FOREIGN KEY (`languages_id`)
@@ -141,6 +141,24 @@ CREATE TABLE IF NOT EXISTS `touragency`.`users_favorite_tours`
 )
     ENGINE = InnoDB
     DEFAULT CHARACTER SET = utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `touragency`.`tour_photos`
+(
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `tour_id` BIGINT NOT NULL,
+    `photo_data` LONGBLOB NOT NULL,
+    `created_date` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    INDEX `fk_tour_photos_tours_idx` (`tour_id` ASC),
+    CONSTRAINT `fk_tour_photos_tours`
+        FOREIGN KEY (`tour_id`)
+            REFERENCES `touragency`.`tours` (`id`)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE
+)
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb4;
+
 
 INSERT INTO `touragency`.`tours`
 (`start_date`, `country`, `description`, `end_date`, `location`, `name`, `number_of_days`, `price`, `program`)

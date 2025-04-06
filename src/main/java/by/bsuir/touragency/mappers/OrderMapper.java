@@ -24,7 +24,6 @@ public interface OrderMapper {
     @Mapping(target = "languages", ignore = true)
     @Mapping(target = "id", ignore = true)
     Orders fromSubmissionDTO(OrderSubmissionDTO dto);
-
-
     List<OrderDTO> toDtoList(List<Orders> orders);
+
 }
