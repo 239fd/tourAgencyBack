@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `touragency`.`languages`
 CREATE TABLE IF NOT EXISTS `touragency`.`users`
 (
     `id`              BIGINT                 NOT NULL AUTO_INCREMENT,
-    `active`          BIT(1)                 NULL DEFAULT NULL,
+    `active`          BIT(1)                 NOT NULL DEFAULT b'1',
     `age`             INT                    NULL DEFAULT NULL,
     `email`           VARCHAR(255)           NULL DEFAULT NULL,
     `gender`          VARCHAR(255)           NULL DEFAULT NULL,
@@ -25,10 +25,12 @@ CREATE TABLE IF NOT EXISTS `touragency`.`users`
     `passport_number` VARCHAR(255)           NULL DEFAULT NULL,
     `passport_series` VARCHAR(255)           NULL DEFAULT NULL,
     `birthday`        DATETIME(6)            NULL DEFAULT NULL,
+    `balance`         DOUBLE                 NOT NULL DEFAULT 1000,
     PRIMARY KEY (`id`)
 )
     ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb4
+    DEFAULT CHARACTER SET = utf8mb4;
+
 ;
 
 CREATE TABLE IF NOT EXISTS `touragency`.`orders`
@@ -41,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `touragency`.`orders`
     `number_of_people`   INT          NULL DEFAULT NULL,
     `special_request`    VARCHAR(255) NULL DEFAULT NULL,
     `status`             VARCHAR(255) NULL DEFAULT NULL,
-    `update_status_date` VARCHAR(255) NULL DEFAULT NULL,
+    `update_status_date` DATETIME     NULL DEFAULT NULL,
     `end_date`           DATE         NULL DEFAULT NULL,
     `tour_id`            BIGINT       NULL DEFAULT NULL,
     `users_id`           BIGINT       NOT NULL,
@@ -344,3 +346,20 @@ INSERT INTO `touragency`.`tours`
 (`start_date`, `country`, `description`, `end_date`, `location`, `name`, `number_of_days`, `price`, `program`)
 VALUES ('2025-09-01 00:00:00.000000', 'Turkey', 'A wonderful tour to New York, Turkey.', '2025-09-13 00:00:00.000000',
         'New York', 'Discover New York', 12, 4790.99, 'Mountain hiking');
+
+INSERT INTO `touragency`.`languages` (`language`)
+VALUES ('English'),
+       ('French'),
+       ('Spanish'),
+       ('German'),
+       ('Italian'),
+       ('Japanese'),
+       ('Chinese'),
+       ('Russian');
+
+INSERT INTO `touragency`.`tours_has_languages` (`tours_id`, `languages_id`)
+VALUES (1, 1),
+       (1, 2),
+       (2, 3),
+       (2, 5),
+       (3, 4);

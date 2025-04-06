@@ -43,9 +43,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         Role role = requestDTO.getRole() != null ? requestDTO.getRole() : Role.USER;
         Users user = Users.builder()
                 .name(requestDTO.getName())
+                .active(true)
                 .surname(requestDTO.getSurname())
                 .patronymic(requestDTO.getPatronymic())
                 .email(requestDTO.getEmail())
+                .balance(1000.00)
                 .password(passwordEncoder.encode(requestDTO.getPassword()))
                 .role(role)
                 .build();

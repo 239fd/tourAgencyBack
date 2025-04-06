@@ -14,6 +14,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,6 +41,23 @@ public class TourServiceImpl implements TourService {
         throw new TourNotFoundException("Tour not found with id = " + id);
 
     }
+
+    @Override
+    public OneTourDTO getTourByIdWithDates(long id){
+        Tours tour = tourRepository.findById(id)
+                .orElseThrow(() -> new TourNotFoundException("Тур не найден"));
+
+        List<Tours> similar = tourRepository.findAllByName(tour.getName());
+        List<LocalDate> dates = similar.stream()
+                .map(t -> t.getStartDate().atZone(ZoneId.systemDefault()).toLocalDate())
+                .sorted()
+                .toList();
+
+        OneTourDTO dto = tourMapper.toOneTourDTO(tour);
+        dto.setStartDates(dates);
+        return dto;
+    }
+
     @Override
     public List<TourDTO> searchAndFilter(TourSearchRequest request) {
         Specification<Tours> spec = TourSpecification.withFilters(request);
@@ -53,4 +72,3 @@ public class TourServiceImpl implements TourService {
         return tourMapper.toDtoList(tours);
     }
 }
-//todo реализация поиск по стране + ключу

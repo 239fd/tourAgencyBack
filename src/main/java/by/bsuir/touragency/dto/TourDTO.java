@@ -14,6 +14,6 @@ public class TourDTO {
     private String country;
     private String location;
     private int numberOfDays;
-    private int price;
+    private double price;
 
 }

@@ -16,6 +16,7 @@ import java.util.Set;
 public class Orders {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long id;
 
     @Column(name = "created_date")

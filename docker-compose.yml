@@ -5,13 +5,13 @@ services:
     container_name: mysql-db
     restart: always
     environment:
-      MYSQL_DATABASE: 'mydb'
+      MYSQL_DATABASE: 'touragency'
       MYSQL_ROOT_PASSWORD: 'root'
     ports:
       - '3306:3306'
     volumes:
-      - mydb:/var/lib/mysql
-      - ./scripts/data.sql:/docker-entrypoint-initdb.d/1.sql
+      - touragency:/var/lib/mysql
+      - ./scripts/tourAgencyScript.sql:/docker-entrypoint-initdb.d/1.sql
 
 volumes:
-  mydb:
+  touragency:

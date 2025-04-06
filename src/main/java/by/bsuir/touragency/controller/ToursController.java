@@ -43,28 +43,19 @@ public class ToursController {
         return ResponseEntity.ok(response);
     }
 
+
     @GetMapping("/")
     public ResponseEntity<ApiResponse<OneTourDTO>> getTour(@RequestParam long id) {
-        try {
-            OneTourDTO tourDTO = tourService.getTourById(id);
-            ApiResponse<OneTourDTO> response = ApiResponse.<OneTourDTO>builder()
-                    .data(tourDTO)
-                    .status(true)
-                    .message("All Tours returned")
-                    .build();
+        OneTourDTO tourDTO = tourService.getTourByIdWithDates(id);
+        ApiResponse<OneTourDTO> response = ApiResponse.<OneTourDTO>builder()
+                .data(tourDTO)
+                .status(true)
+                .message("Tour retrieved successfully")
+                .build();
 
-            return ResponseEntity.ok(response);
-        }
-        catch(TourNotFoundException e){
-            ApiResponse<OneTourDTO> response = ApiResponse.<OneTourDTO>builder()
-                    .data(null)
-                    .status(false)
-                    .message("No tours with id = " + id)
-                    .build();
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-            }
-
+        return ResponseEntity.ok(response);
     }
+
 
     @PostMapping("/favorites")
     public ResponseEntity<ApiResponse<String>> addTourToFavorites(@RequestParam Long favoriteTourId) {
@@ -132,7 +123,3 @@ public class ToursController {
 
 }
 
-/*TODO
-1) Попытка добавить несуществующий тур
-2) Пустые любимые туры
- */

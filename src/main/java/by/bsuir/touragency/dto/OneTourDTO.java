@@ -2,6 +2,9 @@ package by.bsuir.touragency.dto;
 
 import lombok.*;
 
+import java.time.LocalDate;
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -13,4 +16,5 @@ public class OneTourDTO {
     private String description;
     private int numberOfDays;
     private double price;
+    private List<LocalDate> startDates;
 }

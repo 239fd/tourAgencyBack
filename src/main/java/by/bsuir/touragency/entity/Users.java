@@ -23,7 +23,7 @@ public class Users {
     private Long id;
 
     @Column(name = "active")
-    private Boolean active;
+    private Boolean active = true;
 
     @Column(name = "age")
     private Integer age;
@@ -61,6 +61,9 @@ public class Users {
 
     @Column(name = "birthday")
     private Instant birthday;
+
+    @Column(name = "balance")
+    private Double balance = 1000.00;
 
     @OneToMany(mappedBy = "users")
     private Set<Orders> orders = new LinkedHashSet<>();
