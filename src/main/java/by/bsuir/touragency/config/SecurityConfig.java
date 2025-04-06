@@ -32,18 +32,14 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST,
-                                "/route/create",
-                                "/station/add",
-                                "/station/delete/**",
-                                "/train/addTrain",
-                                "/train/delete/**",
-                                "route/delete/**",
-                                "/route/update/**",
-                                "/train/update/**")
+                                "/admin/**",
+                                "admin/analytics/**"
+                        )
                         .hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.POST,
-                                "/train/booking",
-                                "/train/getBooking")
+                                "/user/**",
+                                "/tours/**",
+                                "/orders/**")
                         .hasAuthority("USER")
                         .anyRequest().permitAll())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

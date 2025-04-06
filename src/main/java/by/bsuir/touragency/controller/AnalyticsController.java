@@ -4,7 +4,6 @@ import by.bsuir.touragency.dto.AnalyticsDTO;
 import by.bsuir.touragency.API.ApiResponse;
 import by.bsuir.touragency.service.AnalyticsService;
 import by.bsuir.touragency.service.PDFExportService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.format.annotation.DateTimeFormat;
